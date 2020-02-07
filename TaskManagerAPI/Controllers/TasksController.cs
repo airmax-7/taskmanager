@@ -39,5 +39,32 @@ namespace TaskManagerAPI.Controllers
             }
         }
 
+        [HttpPut]
+        public async Task<IHttpActionResult> Put(TaskAssignDTO dto)
+        {
+            try
+            {
+                //find the new assignee
+                var user = context.Users.FirstOrDefault(u => u.Email == dto.AssigneeEmail);
+                if(user != null)
+                {
+                    //set as new assignee
+                    var task = await context.Tasks.FindAsync(dto.TaskId);
+                    task.Assignees.Add(user);
+                    await context.SaveChangesAsync();
+
+                    //publish notification here
+
+                    return Ok(task);
+                }
+                return NotFound();
+            }
+
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
     }
 }

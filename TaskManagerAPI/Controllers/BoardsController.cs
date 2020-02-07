@@ -20,7 +20,7 @@ namespace TaskManagerAPI.Controllers
         public IHttpActionResult GetBoards()
         {
             var boards = context.Boards.ToList();
-            return Ok(boards);
+            return Ok(boards.ConvertToBoardDto());
         }
 
         // GET api/boards/2
@@ -28,7 +28,7 @@ namespace TaskManagerAPI.Controllers
         public async Task<IHttpActionResult> GetBoardById(int id)
         {
             Board boards = await context.Boards.FindAsync(id);
-            return Ok(boards);
+            return Ok(boards.ConvertToBoardDTO());
         }
 
         // POST api/boards
@@ -43,7 +43,7 @@ namespace TaskManagerAPI.Controllers
             {
                 var result = context.Boards.Add(newBoard);
                 await context.SaveChangesAsync();
-                return Ok(newBoard);
+                return Ok(newBoard.ConvertToBoardDTO());
             }
             catch (Exception ex)
             {

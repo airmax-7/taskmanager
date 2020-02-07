@@ -238,7 +238,9 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Board.cs" />
     <Compile Include="Models\DTO\BoardDTO.cs" />
+    <Compile Include="Models\DTO\TaskAssignDTO.cs" />
     <Compile Include="Models\DTO\TaskDTO.cs" />
+    <Compile Include="Models\DTO\UserDTO.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Task.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

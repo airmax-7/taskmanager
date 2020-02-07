@@ -33,6 +33,7 @@
     }
 
     self.view = ko.observable('LOGIN');
+    self.partialView = ko.observable('LIST');
 
     self.result = ko.observable();
     self.user = ko.observable();
@@ -58,8 +59,13 @@
     self.newTask = {
         Title: ko.observable()
     };
+    self.newAssignee = {
+        Email: ko.observable()
+    };
     self.isAddingTask = ko.observable(false);
     self.isAddingBoard = ko.observable(false);
+    self.isAddingAssignee = ko.observable(false);
+
 
     function showError(jqXHR) {
 
@@ -172,6 +178,7 @@
 
         ajaxHelper(boardsUrl, 'GET').done(function (data) {
             self.boards(data);
+            
         });
     }
 
@@ -198,6 +205,8 @@
             return item.Status == 2;
         });
         self.doneTasks(done);
+
+        self.partialView('LIST');
     }
 
     self.navigateToAddBoard = function () {
@@ -253,7 +262,26 @@
         
         self.selectedTask(task);
 
-        self.view('TASK');
+        self.partialView('DETAIL');
+    }
+
+    self.navigateToAddAssignee = function () {
+        self.isAddingAssignee(true);
+    }
+
+    self.cancelAddAssignee = function () {
+        self.isAddingAssignee(false);
+    }
+
+    self.addAssignee = function () {
+        var task = {
+            TaskId: self.selectedTask().Id,
+            AssigneeEmail: self.newAssignee.Email()
+        };
+        ajaxHelper(tasksUrl, 'PUT', task).done(function (item) {
+            self.selectedTask(item);
+        });
+        self.isAddingTask(false);
     }
 
     self.initialize = function () {

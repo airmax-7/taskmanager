@@ -64,15 +64,13 @@
     </div>
 </div>
 <!--/ko-->
-
-
 <!--ko if: view() == 'BOARDS'-->
 <div class="row">
     <div class="col-sm-12">
         <div class="col-sm-4">
             <!--ko foreach: boards-->
             <div class="col-sm-12 card">
-                <a href="#!" class="text-center" data-bind="click: $parent.navigateToBoard($data)">
+                <a href="#!" class="text-center" data-bind="click: function(){$parent.navigateToBoard($data)}">
                     <b data-bind="text:Name"></b>
                 </a>
             </div>
@@ -88,13 +86,14 @@
         </div>
         <!--ko if:selectedBoard-->
         <div class="col-sm-8">
+            <!--ko if: partialView() == 'LIST'-->
             <h3 data-bind="text: selectedBoard().Name">Title</h3>
             <div class="table-responsive table">
                 <div class="col-sm-4 text-center">
                     <b class="col-sm-12">To Do</b>
                     <!--ko foreach: todoTasks-->
                     <div class="col-sm-12 card">
-                        <a href="#!" class="text-center" data-bind="click: $parent.navigateToTask($data)">
+                        <a href="#!" class="text-center" data-bind="click: function(){$parent.navigateToTask($data)}">
                             <b data-bind="text:Title"></b>
                         </a>
                     </div>
@@ -102,7 +101,7 @@
                     <!--ko if:isAddingTask-->
                     <div data-bind="with: newTask">
                         <input type="text" data-bind="value:Title" />
-                        <button class="btn btn-sm btn-success" data-bind="click: $parent.addTask(0)">Ok</button>
+                        <button class="btn btn-sm btn-success" data-bind="click: function(){$parent.addTask(0)}">Ok</button>
                         <button class="btn btn-sm btn-danger" data-bind="click: $parent.cancelAddTask">Cancel</button>
                     </div>
                     <!--/ko-->
@@ -120,7 +119,7 @@
                     <!--ko if:isAddingTask-->
                     <div data-bind="with: newTask">
                         <input type="text" data-bind="value:Title" />
-                        <button class="btn-sm btn btn-success" data-bind="click: $parent.addTask(1)">Ok</button>
+                        <button class="btn-sm btn btn-success" data-bind="click: function(){$parent.addTask(1)}">Ok</button>
                         <button class="btn btn-sm btn-danger" data-bind="click: $parent.cancelAddTask">Cancel</button>
                     </div>
                     <!--/ko-->
@@ -131,7 +130,7 @@
                     <!--ko if:isAddingTask-->
                     <div data-bind="with: newTask">
                         <input type="text" data-bind="value:Title" />
-                        <button class="btn-sm btn btn-success" data-bind="click: $parent.addTask(2)">Ok</button>
+                        <button class="btn-sm btn btn-success" data-bind="click: function(){$parent.addTask(2)}">Ok</button>
                         <button class="btn btn-sm btn-danger" data-bind="click: $parent.cancelAddTask">Cancel</button>
                     </div>
                     <!--/ko-->
@@ -139,16 +138,29 @@
                 </div>
 
             </div>
+            <!--/ko-->
+            <!--ko if: partialView() == 'DETAIL'-->
+            <div data-bind="with: selectedTask">
+                <h3 data-bind="text: Title"></h3>
+                <em>Assigned To: </em><br />
+                <!--ko foreach:Assignees-->
+                <div data-bind="text: Email"></div>
+                <!--/ko-->
+            </div>
+            <div>
+                <!--ko if:isAddingAssignee-->
+                <div>
+                    <input type="text" class="form-control" data-bind="value: newAssignee.Email" />
+                    <button class="btn-sm btn btn-success" data-bind="click: addAssignee">Ok</button>
+                    <button class="btn btn-sm btn-danger" data-bind="click: cancelAddAssignee">Cancel</button>
+                </div>
+                <!--/ko-->
+                <button class="btn btn-primary text-center col-sm-12" data-bind="click: navigateToAddAssignee">Add Member</button>
+
+            </div>
+            <!--/ko-->
         </div>
         <!--/ko-->
     </div>
-    
-
-    
-</div>
-<!--/ko-->
-
-<!--ko if:view() == 'TASK'-->
-<div class="row">
 </div>
 <!--/ko-->
